@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AdminLoginController extends Controller
 {
@@ -23,7 +24,15 @@ class AdminLoginController extends Controller
        ]);
 
        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-        return redirect()->route('admin.dashboard');
+
+        //admin authorized 
+        if(Gate::allows('admin',Auth::user())){
+
+            return redirect()->route('admin.dashboard');
+        }else{
+            Auth::logout();
+            return redirect()->route('admin.index')->with('error','You are not authorized admin');
+        }
        }else{
         return redirect()->route('admin.index')->with('error','Cedentials not match !')->withInput();
        }

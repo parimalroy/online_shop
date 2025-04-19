@@ -88,6 +88,7 @@
     <script src="{{ asset('admin/js/adminlte.min.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

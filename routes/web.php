@@ -27,6 +27,10 @@ Route::group(['prefix'=>'account'],function(){
 
         Route::get('admin/categorie',[CategoryController::class,'create'])->name('category.create');
         Route::post('admin/categorie',[CategoryController::class,'store'])->name('category.store');
+        Route::get('admin/index',[CategoryController::class,'index'])->name('category.index');
+        Route::get('admin/category/edit/{id}',[CategoryController::class,'edit'])->name('category.edit');
+        Route::post('admin/category/update',[CategoryController::class,'update'])->name('category.update');
+
         Route::get('getslug',[CategoryController::class,'slug'])->name('getslug');
 
         

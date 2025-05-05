@@ -141,5 +141,22 @@
             });
 
         });
+        $("#name").change(function() {
+            // alert('hello');
+            element = $(this);
+            $.ajax({
+                url: "{{ route('getslug') }}",
+                type: 'get',
+                data: {
+                    title: element.val()
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response['status'] == true) {
+                        $("#slug").val(response["slug"]);
+                    }
+                }
+            });
+        })
     </script>
 @endsection

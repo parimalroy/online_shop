@@ -30,6 +30,7 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('admin/index',[CategoryController::class,'index'])->name('category.index');
         Route::get('admin/category/edit/{id}',[CategoryController::class,'edit'])->name('category.edit');
         Route::post('admin/category/update',[CategoryController::class,'update'])->name('category.update');
+        Route::delete('admin/category/delete/{id}',[CategoryController::class,'delete'])->name('category.delete');
 
         Route::get('getslug',[CategoryController::class,'slug'])->name('getslug');
 

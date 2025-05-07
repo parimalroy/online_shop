@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\AdminLoginController;
+use App\Http\Controllers\admin\SubCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,12 @@ Route::group(['prefix'=>'account'],function(){
 
         Route::get('getslug',[CategoryController::class,'slug'])->name('getslug');
 
+
+        Route::get('admin/sub-category/index',[SubCategoryController::class,'index'])->name('subcategory.index');
+        Route::get('admin/sub-category',[SubCategoryController::class,'create'])->name('subcategory.create');
+        Route::post('admin/sub-category/store',[SubCategoryController::class,'store'])->name('subcategory.store');
+     
+        
         
     });
 });

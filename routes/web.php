@@ -39,6 +39,8 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('admin/sub-category/index',[SubCategoryController::class,'index'])->name('subcategory.index');
         Route::get('admin/sub-category',[SubCategoryController::class,'create'])->name('subcategory.create');
         Route::post('admin/sub-category/store',[SubCategoryController::class,'store'])->name('subcategory.store');
+        Route::get('admin/sub-category/edit/{id}',[SubCategoryController::class,'edit'])->name('subcategory.edit');
+        Route::post('admin/sub-category/update',[SubCategoryController::class,'update'])->name('subcategory.update');
      
         
         

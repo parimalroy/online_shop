@@ -47,4 +47,39 @@ class SubCategoryController extends Controller
         ]);
     }
    }
+
+   //This method Edit sub category
+   public function edit($id){
+    $categorieList=SubCategory::with('category')->get();
+    $subcategory=SubCategory::findOrFail($id);
+    return view('backend.subcategory.edit',['subcategory'=>$subcategory,'categorieList'=>$categorieList]);
+   }
+
+   //This Method update subcategory
+
+   public function update(Request $request){
+    $validator=Validator::make($request->all(),[
+        'name'=>'required|min:3|max:255',
+        'slug'=>'required|min:3|max:255',
+        'status'=>'required'
+    ]);
+
+    if($validator->passes()){
+        SubCategory::find($request->id)->update([
+            'name'=>$request->name,
+            'slug'=>$request->slug,
+            'status'=>$request->status,
+            'categorie_id'=>$request->categorie_id,
+        ]);
+        return response()->json([
+            'status'=>true,
+            'message'=>'sub-category update successfully !'
+        ]);
+    }else{
+        return response()->json([
+            'status'=>false,
+            'errors'=>$validator->errors(),
+        ]);
+    }
+   }
 }

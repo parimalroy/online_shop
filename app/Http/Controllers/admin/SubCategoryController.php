@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
    public function store(Request $request){
     $validator=Validator::make($request->all(),[
         'name'=>'required|min:3|max:255',
-        'slug'=>'required|min:3|max:255',
+        'slug'=>'required|unique:sub_categories|min:3|max:255',
         'status'=>'required'
     ]);
     if($validator->passes()){
@@ -60,7 +60,7 @@ class SubCategoryController extends Controller
    public function update(Request $request){
     $validator=Validator::make($request->all(),[
         'name'=>'required|min:3|max:255',
-        'slug'=>'required|min:3|max:255',
+        'slug'=>'required|unique:sub_categories|min:3|max:255',
         'status'=>'required'
     ]);
 
@@ -79,6 +79,17 @@ class SubCategoryController extends Controller
         return response()->json([
             'status'=>false,
             'errors'=>$validator->errors(),
+        ]);
+    }
+   }
+
+   //This method delete subcategory
+   public function delete($id){
+    $subcategory=SubCategory::find($id)->delete();
+    if($subcategory){
+        return response()->json([
+            'status'=>true,
+            'message'=>'sub-category deleted!'
         ]);
     }
    }

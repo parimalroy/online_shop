@@ -7,8 +7,10 @@
                 <div class="col-sm-6">
                     <h1>Categories</h1>
                 </div>
+                <h3 id="message"></h3>
                 <div class="col-sm-6 text-right">
-                    <a href="{{ route('subcategory.create') }}" class="btn btn-primary">New Sub-category</a>
+                    <a href="{{ route('brand.create') }}" class="btn btn-primary">New Brand</a>
+
                 </div>
             </div>
         </div>
@@ -39,22 +41,20 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>Category</th>
-                                <th>Sub-Category</th>
+                                <th>Brand</th>
                                 <th>Slug</th>
                                 <th width="100">Status</th>
                                 <th width="100">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($subcategories->isNotEmpty())
-                                @foreach ($subcategories as $subcategorie)
+                            @if ($brands->isNotEmpty())
+                                @foreach ($brands as $brand)
                                     <tr>
-                                        <td>{{ $subcategorie->category->name }}</td>
-                                        <td>{{ $subcategorie->name }}</td>
-                                        <td>{{ $subcategorie->slug }}</td>
+                                        <td>{{ $brand->name }}</td>
+                                        <td>{{ $brand->slug }}</td>
                                         <td>
-                                            @if ($subcategorie->status == 'active')
+                                            @if ($brand->status == 'active')
                                                 <svg class="text-success-500 h-6 w-6 text-success"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -73,7 +73,7 @@
 
                                         </td>
                                         <td>
-                                            <a href="{{ route('subcategory.edit', $subcategorie->id) }}">
+                                            <a href="{{ route('brand.edit', $brand->id) }}">
                                                 <svg class="filament-link-icon w-4 h-4 mr-1"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                     fill="currentColor" aria-hidden="true">
@@ -82,7 +82,7 @@
                                                     </path>
                                                 </svg>
                                             </a>
-                                            <button class="text-danger btn" data-id="{{ $subcategorie->id }}">
+                                            <button class="text-danger btn" data-id="{{ $brand->id }}">
                                                 <svg wire:loading.remove.delay="" wire:target=""
                                                     class="filament-link-icon w-4 h-4 mr-1" viewBox="0 0 20 20"
                                                     fill="currentColor" aria-hidden="true">
@@ -99,47 +99,41 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="card-footer clearfix">
-                    <ul class="pagination pagination m-0 float-right">
-                        <li class="page-item"><a class="page-link" href="#">«</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">»</a></li>
-                    </ul>
-                </div> --}}
-                {{-- {{ $categories->links() }} --}}
+
             </div>
         </div>
         <!-- /.card -->
     </section>
 @endsection
+
 @section('script')
     <script>
-        $(document).ready(function() {
-            $(".text-danger").on('click', function() {
-                let recordId = $(this).data('id');
-                let row = $(this).closest('tr');
-                if (confirm('are sure want to delete data')) {
-                    $.ajax({
-                        url: "{{ route('subcategory.delete', ':id') }}".replace(':id', recordId),
-                        type: 'delete',
-                        data: {
-                            "_token": "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            if (response['status'] == true) {
-                                row.remove();
-                            } else {
-                                alert('something wrong');
-                            }
-                        },
-                        errors: function(xhr, status, record) {
-                            alert('error deleted.please try agin');
+        $(".text-danger").on('click', function() {
+            let recordId = $(this).data('id');
+            let row = $(this).closest('tr');
+            if (confirm('are you sure delete brand')) {
+                $.ajax({
+                    url: "{{ route('brand.delete', ':id') }}".replace(':id', recordId),
+                    type: 'delete',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response['status'] === true) {
+                            row.remove();
+                            $("#message").addClass('text-danger').html(response['message']).fadeIn();
+                            setTimeout(() => {
+                                $("#message").fadeOut();
+                            }, 5000);
+                        } else {
+                            alert('someting went wrong');
                         }
-                    });
-                }
-            });
+                    },
+                    errors: function(xhr, status, record) {
+                        alert('someting wrong!');
+                    }
+                });
+            }
         });
     </script>
 @endsection

@@ -31,7 +31,7 @@
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <a class="btn pl-2" href="{{ route('category.index') }}">Clear</a>
+                                    <a class="btn pl-2" href="{{ route('brand.index') }}">Clear</a>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +102,7 @@
 
             </div>
         </div>
+        {{ $brands->links() }}
         <!-- /.card -->
     </section>
 @endsection

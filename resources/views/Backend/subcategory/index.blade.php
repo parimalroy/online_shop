@@ -29,7 +29,7 @@
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <a class="btn pl-2" href="{{ route('category.index') }}">Clear</a>
+                                    <a class="btn pl-2" href="{{ route('subcategory.index') }}">Clear</a>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                         <li class="page-item"><a class="page-link" href="#">»</a></li>
                     </ul>
                 </div> --}}
-                {{-- {{ $categories->links() }} --}}
+                {{ $subcategories->links() }}
             </div>
         </div>
         <!-- /.card -->

@@ -11,8 +11,12 @@ use Illuminate\Support\Facades\Validator;
 class SubCategoryController extends Controller
 {
     //This Method Show Sub Category
-    public function index(){
-        $subcategories=SubCategory::with('category')->get();
+    public function index(Request $request){
+        $subcategories=SubCategory::with('category')->latest();
+        if(!empty($request->keyword)){
+            $subcategories->where('name','like','%'.$request->keyword.'%');
+        }
+        $subcategories=$subcategories->paginate(8);
         return view('backend.subcategory.index',['subcategories'=>$subcategories]);
     }
     //This Method Create Sub Category

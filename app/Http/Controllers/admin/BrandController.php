@@ -10,8 +10,12 @@ use Illuminate\Support\Facades\Validator;
 class BrandController extends Controller
 {
     //This method show Brand list
-    public function index(){
-        $brands=Brand::orderBy('name')->get();
+    public function index(Request $request){
+        $brands=Brand::orderBy('name','ASC');
+        if(!empty($request->keyword)){
+            $brands->where('name','like','%'.$request->keyword.'%');
+        }
+        $brands=$brands->paginate(2);
         return view('backend.brand.index',['brands'=>$brands]);
     }
     //This Method create Brand
